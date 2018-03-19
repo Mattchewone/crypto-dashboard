@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app dark>
     <v-toolbar fixed app>
       <v-toolbar-title v-text="title"></v-toolbar-title>
     </v-toolbar>
@@ -16,6 +16,7 @@
 
 <script>
   export default {
+    name: 'default-layout',
     data() {
       return {
         title: 'Crypto Dashboard'
