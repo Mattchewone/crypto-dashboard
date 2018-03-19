@@ -1,20 +1,8 @@
 <template>
   <v-flex xs12>
     <v-expansion-panel popout expand>
-      <v-expansion-panel-content v-for="portfolio in portfolios" :key="portfolio.name">
-        <div slot="header">{{ portfolio.name }}</div>
-        <v-card>
-          <v-data-table
-            :headers="headers"
-            disable-initial-sort
-            :items="portfolio.currencies"
-            hide-actions>
-            <template slot="items" slot-scope="props">
-              <PortfolioItem :item="props.item" :currencies="currencies" />
-            </template>
-          </v-data-table>
-        </v-card>
-      </v-expansion-panel-content>
+      <PortfolioItem v-for="portfolio in portfolios" :key="portfolio.name" :item="portfolio" :currencies="currencies">
+      </PortfolioItem>
     </v-expansion-panel>
   </v-flex>
 </template>
