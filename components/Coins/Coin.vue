@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  name: 'coin-item',
   props: {
     item: {
       type: Object,

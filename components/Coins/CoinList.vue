@@ -17,6 +17,7 @@
 import Coin from './Coin'
 
 export default {
+  name: 'coin-list',
   props: {
     items: {
       type: Array,
