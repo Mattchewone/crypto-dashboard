@@ -1,8 +1,8 @@
 <template>
   <tr>
-    <td class="text-xs-left">{{ item.currency }}</td>
+    <td class="text-xs-left">{{ item.symbol }}</td>
     <td class="text-xs-left">{{ item.amount }}</td>
-    <td class="text-xs-left">{{ total }}</td>
+    <td class="text-xs-left">${{ total }}</td>
   </tr>
 </template>
 
@@ -23,7 +23,7 @@ export default {
     total () {
       const { currencies, item } = this
 
-      const coin = currencies.find(currency => currency.symbol === item.currency)
+      const coin = currencies.find(currency => currency.symbol === item.symbol)
       return (coin.price_usd * item.amount).toFixed(2)
     }
   }

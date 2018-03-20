@@ -1,8 +1,11 @@
 <template>
   <v-flex xs12>
     <v-expansion-panel popout expand>
-      <PortfolioItem v-for="portfolio in portfolios" :key="portfolio.name" :item="portfolio" :currencies="currencies">
-      </PortfolioItem>
+      <PortfolioItem
+        v-for="portfolio in portfolios"
+        :key="portfolio.name"
+        :item="portfolio"
+        :currencies="currencies" />
     </v-expansion-panel>
   </v-flex>
 </template>
@@ -20,15 +23,6 @@ export default {
     currencies: {
       type: Array,
       required: true
-    }
-  },
-  data () {
-    return {
-      headers: [
-        { text: 'Currency', value: 'currency' },
-        { text: 'Amount', value: 'amount' },
-        { text: 'Current Value', value: 'value', sortable: false }
-      ]
     }
   },
   components: {

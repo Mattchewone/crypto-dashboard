@@ -33,7 +33,7 @@ export default {
   data () {
     return {
       headers: [
-        { text: 'Currency', value: 'currency' },
+        { text: 'Currency', value: 'symbol' },
         { text: 'Amount', value: 'amount' },
         { text: 'Total', value: 'total', sortable: false }
       ]
@@ -43,7 +43,7 @@ export default {
     total () {
       const { currencies } = this
       return this.item.currencies.reduce((total, item) => {
-        const currentCurrency = currencies.find(cur => cur.symbol === item.currency)
+        const currentCurrency = currencies.find(cur => cur.symbol === item.symbol)
         total += (currentCurrency.price_usd * item.amount)
         return total
       }, 0).toFixed(2)
