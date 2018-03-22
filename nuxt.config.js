@@ -21,6 +21,10 @@ module.exports = {
     ]
   },
 
+  env: {
+    API_HOST: process.env.API_HOST || 'http://localhost:3030'
+  },
+
   /*
   ** Customize the progress-bar color
   */
