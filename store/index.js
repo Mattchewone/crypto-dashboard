@@ -7,7 +7,7 @@ const { service } = feathersVuex(feathersClient, { idField: '_id' })
 const createStore = () => {
   return new Vuex.Store({
     plugins: [
-      service('portfolios', { paginate: true })
+      service('portfolios')
     ]
   })
 }
