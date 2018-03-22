@@ -13,7 +13,7 @@
 
     <v-flex d-flex xs12 v-for="(i, key) in currentItem.currencies" :key="key">
       <v-layout row wrap>
-        <v-flex d-flex xs6>
+        <v-flex d-flex xs4>
           <v-select
             :items="items"
             v-model="currentItem.currencies[key].symbol"
@@ -24,13 +24,21 @@
           </v-select>
         </v-flex>
 
-        <v-flex d-flex xs6>
+        <v-flex d-flex xs4>
           <v-text-field
             label="Currency"
             v-model="currentItem.currencies[key].amount"
             type="number"
             :rules="amountRules"
             required>
+          </v-text-field>
+        </v-flex>
+
+        <v-flex d-flex xs4>
+          <v-text-field
+            label="Purchase Price"
+            v-model="currentItem.currencies[key].purchasePrice"
+            type="number">
           </v-text-field>
         </v-flex>
       </v-layout>

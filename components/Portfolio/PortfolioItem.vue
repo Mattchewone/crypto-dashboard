@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panel-content>
-    <div slot="header">{{ item.name }} <span class="portfolio-total">{{ total }}</span></div>
+    <div slot="header">{{ item.name }} <span class="portfolio-total">${{ total }} ({{ pl }}%)</span></div>
     <v-card>
       <v-data-table
         :headers="headers"
@@ -35,7 +35,9 @@ export default {
       headers: [
         { text: 'Currency', value: 'symbol' },
         { text: 'Amount', value: 'amount' },
-        { text: 'Total', value: 'total', sortable: false }
+        { text: 'Purchase Price', value: 'purchasePrice' },
+        { text: 'Current Value', value: 'total', sortable: false },
+        { text: 'P/L', value: 'pl', sortable: false }
       ]
     }
   },
@@ -44,9 +46,26 @@ export default {
       const { currencies } = this
       return this.item.currencies.reduce((total, item) => {
         const currentCurrency = currencies.find(cur => cur.symbol === item.symbol)
-        total += (currentCurrency.price_usd * item.amount)
+        if (currentCurrency) {
+          total += (currentCurrency.price_usd * item.amount)
+        }
         return total
       }, 0).toFixed(2)
+    },
+
+    totalPurchase () {
+      const { currencies } = this
+      return this.item.currencies.reduce((total, item) => {
+        total += (item.amount * item.purchasePrice)
+        return total
+      }, 0)
+    },
+
+    pl () {
+      const { total, totalPurchase } = this
+      const increase = (total - totalPurchase)
+      const percent = ((increase / totalPurchase) * 100).toFixed(1)
+      return parseFloat(percent)
     }
   },
   components: {

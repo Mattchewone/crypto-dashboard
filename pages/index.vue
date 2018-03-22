@@ -59,8 +59,8 @@ export default {
         {
           name: 'Example',
           currencies: [
-            { symbol: 'BTC', amount: 1 },
-            { symbol: 'ETH', amount: 1.25 }
+            { symbol: 'BTC', amount: 1, purchasePrice: 8000.51 },
+            { symbol: 'ETH', amount: 1.25, purchasePrice: 800.64 }
           ]
         }
       ]
