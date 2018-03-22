@@ -11,11 +11,16 @@
           <PortfolioRow :item="props.item" :currencies="currencies" />
         </template>
       </v-data-table>
+      <div class="text-xs-right" v-if="item._id">
+        <BaseDeleteButtom @delete="$emit('remove', item)"><v-icon>delete_forever</v-icon></BaseDeleteButtom>
+        <v-btn @click="$emit('edit', item)" small color="primary"><v-icon>edit</v-icon></v-btn>
+      </div>
     </v-card>
   </v-expansion-panel-content>
 </template>
 
 <script>
+import BaseDeleteButtom from '~/components/BaseDeleteButton'
 import PortfolioRow from './PortfolioRow'
 
 export default {
@@ -74,7 +79,8 @@ export default {
     }
   },
   components: {
-    PortfolioRow
+    PortfolioRow,
+    BaseDeleteButtom
   }
 }
 </script>

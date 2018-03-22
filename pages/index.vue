@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="portfolios">
     <section>
       <span class="coin-heading">Current Prices:</span>
       <CoinList :items="currentPrices" />
@@ -10,7 +10,17 @@
     <section>
       <v-layout row wrap>
         <span class="portfolio-heading">Portfolios:</span>
-        <PortfolioList :portfolios="portfolios" :currencies="currentPrices" />
+
+        <PortfolioList :portfolios="portfolios">
+
+          <PortfolioItem
+            slot-scope="{ portfolio }"
+            :item="portfolio"
+            @remove="handleDelete"
+            @edit="handleEdit"
+            :currencies="currentPrices" />
+
+        </PortfolioList>
       </v-layout>
     </section>
 
@@ -23,7 +33,7 @@
     <v-dialog v-model="isModalOpen" persistent max-width="800">
       <v-toolbar color="grey" dark>
         <v-toolbar-title>
-          Create Portfolio
+          {{ currentPortfolio && currentPortfolio._id ? 'Edit' : 'Create' }} Portfolio
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="closeModal">
@@ -33,6 +43,7 @@
       <v-container card grid-list-md style="padding: 5px;">
         <PortfolioForm
           v-if="showModalForm"
+          :copyOfItem="currentPortfolio"
           @save="handleSave">
         </PortfolioForm>
       </v-container>
@@ -42,9 +53,10 @@
 
 <script>
 import axios from 'axios'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import CoinList from '~/components/Coins/CoinList'
 import PortfolioList from '~/components/Portfolio/PortfolioList'
+import PortfolioItem from '~/components/Portfolio/PortfolioItem'
 import PortfolioForm from '~/components/Portfolio/PortfolioForm'
 
 export default {
@@ -68,7 +80,8 @@ export default {
   },
   computed: {
     ...mapGetters('portfolios', {
-      findPortfoliosInStore: 'find'
+      findPortfoliosInStore: 'find',
+      copyOfCurrent: 'getCopy'
     }),
 
     portfolios () {
@@ -78,11 +91,21 @@ export default {
       } else {
         return this.defaultPortfolio
       }
+    },
+
+    currentPortfolio () {
+      return this.copyOfCurrent || {}
     }
   },
   methods: {
     ...mapActions('portfolios', {
-      createPortfolio: 'create'
+      createPortfolio: 'create',
+      patchPortfolio: 'patch',
+      removePortfolio: 'remove'
+    }),
+    ...mapMutations('portfolios', {
+      setCopy: 'setCurrent',
+      clearCopy: 'clearCurrent'
     }),
 
     openModal () {
@@ -91,12 +114,30 @@ export default {
     },
 
     handleSave (item) {
-      this.createPortfolio(item)
+      if (item._id) {
+        this.patchPortfolio([item._id, item, {}])
+      } else {
+        this.createPortfolio(item)
+      }
       this.closeModal()
+    },
+
+    handleDelete (item) {
+      if (item._id) {
+        this.removePortfolio(item._id)
+      }
+    },
+
+    handleEdit (item) {
+      this.setCopy(item)
+      setTimeout(() => {
+        this.openModal()
+      }, 200)
     },
 
     closeModal () {
       this.isModalOpen = false
+      this.clearCopy()
       setTimeout(() => {
         this.showModalForm = false
       }, 500)
@@ -113,6 +154,7 @@ export default {
   components: {
     CoinList,
     PortfolioList,
+    PortfolioItem,
     PortfolioForm
   },
   created () {
@@ -130,5 +172,9 @@ export default {
 
   .coin-heading {
     padding-bottom: 10px;
+  }
+
+  .portfolios {
+    padding-bottom: 50px;
   }
 </style>
