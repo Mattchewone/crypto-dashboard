@@ -56,16 +56,21 @@ export default {
     totalPurchase () {
       const { currencies } = this
       return this.item.currencies.reduce((total, item) => {
-        total += (item.amount * item.purchasePrice)
+        if (item.purchasePrice) {
+          total += (item.amount * item.purchasePrice)
+        }
         return total
       }, 0)
     },
 
     pl () {
       const { total, totalPurchase } = this
-      const increase = (total - totalPurchase)
-      const percent = ((increase / totalPurchase) * 100).toFixed(1)
-      return parseFloat(percent)
+      if (totalPurchase) {
+        const increase = (total - totalPurchase)
+        const percent = ((increase / totalPurchase) * 100).toFixed(1)
+        return parseFloat(percent)
+      }
+      return 0
     }
   },
   components: {

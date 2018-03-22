@@ -38,7 +38,9 @@
           <v-text-field
             label="Purchase Price"
             v-model="currentItem.currencies[key].purchasePrice"
-            type="number">
+            type="number"
+            :rules="purchaseRules"
+            required>>
           </v-text-field>
         </v-flex>
       </v-layout>
@@ -83,6 +85,9 @@ export default {
       ],
       amountRules: [
         v => !!v || 'Amount is required'
+      ],
+      purchaseRules: [
+        v => !!v || 'Purchase Price is required'
       ],
       currencyRules: [
         v => Object.keys(v).length !== 0 || 'Currency is required'
