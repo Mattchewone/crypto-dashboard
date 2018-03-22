@@ -71,15 +71,16 @@
 <script>
 export default {
   name: 'portfolio-form',
+  props: {
+    copyOfItem: {
+      type: Object,
+      default: {}
+    }
+  },
   data () {
     return {
       valid: true,
-      currentItem: {
-        name: '',
-        currencies: [
-          { symbol: '', amount: undefined }
-        ]
-      },
+      currentItem: {},
       nameRules: [
         v => !!v || 'Name is required'
       ],
@@ -109,6 +110,20 @@ export default {
 
     addCurrency () {
       this.currentItem.currencies.push({ symbol: '', amount: undefined })
+    }
+  },
+  created () {
+    const { copyOfItem } = this
+
+    if (copyOfItem._id) {
+      this.currentItem = copyOfItem
+    } else {
+      this.currentItem = {
+        name: '',
+        currencies: [
+          { symbol: '', amount: undefined }
+        ]
+      }
     }
   }
 }
