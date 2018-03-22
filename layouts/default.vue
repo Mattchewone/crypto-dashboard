@@ -8,9 +8,6 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer fixed app>
-      <span>&copy; 2018</span>
-    </v-footer>
   </v-app>
 </template>
 
